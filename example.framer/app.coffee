@@ -1,4 +1,4 @@
-require 'framework'
+require 'cs'
 
 SHOW_ALL = true
 SHOW_LAYER_TREE = false
@@ -1376,7 +1376,7 @@ tooltipsView.onUnload ->
 # Donuts View
 
 donutsView = new View
-	title: 'Donuts'
+	title: 'Donut'
 	contentInset:
 		bottom: 128
 
@@ -1386,43 +1386,40 @@ donutsView.onLoad ->
 	
 		# toggles
 		
-		new Toggle 
-			name: 'Toggle'
-			parent: @ 
+		new Donut
+			name: 'Default Donut'
+			parent: @
+			x: Align.center
+		
+		new Donut
+			name: 'Dark Donut'
+			parent: @
+			x: Align.center
+			dark: true
+		
+		new Donut
+			name: 'Custom Min / Max / Value'
+			parent: @
+			x: Align.center
+			min: 20
+			max: 200
+			value: 150
+		
+		d = new Donut
+			name: 'Donut.value can be Animated'
+			parent: @
+			x: Align.center
 			
-		new Toggle 
-			name: 'Toggled Toggle'
-			parent: @ 
-			toggled: true
+		scoreGoUp = new Animation d,
+			value: 690
+		scoreGoDown = scoreGoUp.reverse()
 		
-		new Toggle 
-			name: 'Toggle with Options'
-			parent: @ 
-			options: ['Good', 'Evil']
-		
-		new Toggle 
-			name: 'Toggle with Icons'
-			parent: @ 
-			options: ['pizza', 'apple']
-			icon: true
-		
-		new Toggle 
-			name: 'Toggle with Custom Colors'
-			parent: @ 
-			options: ['phone', 'email']
-			icon: true
-			color: white
-			backgroundColor: blue60
-		
-		new Toggle 
-			name: 'Blank Toggle'
-			parent: @ 
-			options: [' ', ' ']
+		Utils.chainAnimations scoreGoUp, scoreGoDown
 			
 		# set positions and create code labels
 		
 		for layer in @children
-			continue if layer.constructor.name isnt 'Toggle'
+			continue if layer.constructor.name isnt 'Donut'
 			
 			title = new H4
 				name: '.'
@@ -1442,10 +1439,11 @@ donutsView.onLoad ->
 			layer.y = title.maxY + 24
 		
 			string = [
-				"new Topggle",
-				"options: [#{_.join(_.map(layer.options, (n) -> return "'#{n}'"), ', ')}]"
-				"icon: #{layer.icon}"
-				"toggled: {toggled}"
+				"new Donut",
+				"min: #{layer.min}"
+				"max: #{layer.max}"
+				"value: {value}"
+				"dark: #{layer.dark}"
 				].join('\n\t')
 							
 			label = new Code
@@ -1455,7 +1453,7 @@ donutsView.onLoad ->
 				y: layer.maxY + 24
 				text: string
 				
-			label.template = layer.toggled
+			label.template = layer.value
 			
 			copyIcon = new Icon
 				parent: @
@@ -1469,13 +1467,34 @@ donutsView.onLoad ->
 				copyIcon.onTap ->
 					copyTextLayerToClipboard(label)
 					
-				layer.on "change:active", =>
-					label.template = layer.toggled
+				layer.on "change:value", =>
+					label.template = layer.value.toFixed()
 			
 			last = label
 	
 		
 		if not SHOW_LAYER_TREE then child.name = '.' for child in @children
+	
+		lightScrim = new Layer
+			parent: @
+			width: @width
+			brightness: 150
+			opacity: .2
+			saturate: 0
+			y: @children[0].y - 16
+			height: @children[0].height + 32
+			image: Utils.randomImage()
+			
+		darkScrim = new Layer
+			parent: @
+			width: @width
+			brightness: 20
+			y: @children[1].y - 16
+			height: @children[1].height + 32
+			image: Utils.randomImage()
+		
+		lightScrim.sendToBack()
+		darkScrim.sendToBack()
 	
 addDocsLink(donutsView, 'wiki/Toggle')
 
@@ -1496,43 +1515,64 @@ cardsView.onLoad ->
 	
 		# toggles
 		
-		new Toggle 
-			name: 'Toggle'
-			parent: @ 
+		new Card
+			name: 'Default Card'
+			x: Align.center()
+			parent: @
 			
-		new Toggle 
-			name: 'Toggled Toggle'
-			parent: @ 
-			toggled: true
+		new Card
+			name: 'Card Icon'
+			x: Align.center()
+			parent: @
+			icon: 'maximise'
 		
-		new Toggle 
-			name: 'Toggle with Options'
-			parent: @ 
-			options: ['Good', 'Evil']
-		
-		new Toggle 
-			name: 'Toggle with Icons'
-			parent: @ 
-			options: ['pizza', 'apple']
-			icon: true
-		
-		new Toggle 
-			name: 'Toggle with Custom Colors'
-			parent: @ 
-			options: ['phone', 'email']
-			icon: true
-			color: white
-			backgroundColor: blue60
-		
-		new Toggle 
-			name: 'Blank Toggle'
-			parent: @ 
-			options: [' ', ' ']
+		new Card
+			name: 'Card Title'
+			x: Align.center()
+			parent: @
+			title: 'Mortgages'
 			
+		new Card
+			name: 'Card Body'
+			x: Align.center()
+			parent: @
+			body: 'Upgrade your credit with these coaching lessons.'
+			
+		new Card
+			name: 'Active Card'
+			x: Align.center()
+			parent: @
+			flag: 'active'
+			
+		new Card
+			name: 'Comingsoon Card'
+			x: Align.center()
+			parent: @
+			flag: 'comingsoon'
+			
+		new Card
+			name: 'Card Back Side'
+			x: Align.center()
+			parent: @
+			side: 'back'
+			
+		new Card
+			name: 'Card Progress'
+			x: Align.center()
+			parent: @
+			side: 'back'
+			progress: 2
+			
+		new Card
+			name: 'Inactive Card'
+			x: Align.center()
+			parent: @
+			inactive: true
+		
 		# set positions and create code labels
 		
 		for layer in @children
-			continue if layer.constructor.name isnt 'Toggle'
+			continue if layer.constructor.name isnt 'Card'
 			
 			title = new H4
 				name: '.'
@@ -1552,10 +1592,14 @@ cardsView.onLoad ->
 			layer.y = title.maxY + 24
 		
 			string = [
-				"new Topggle",
-				"options: [#{_.join(_.map(layer.options, (n) -> return "'#{n}'"), ', ')}]"
-				"icon: #{layer.icon}"
-				"toggled: {toggled}"
+				"new Card",
+				"inactive: #{layer.inactive}"
+				"flag: #{layer.flag}"
+				"side: '{side}'"
+				"progress: {progress}"
+				"icon: '#{layer.icon}'"
+				"title: '#{layer.title}'"
+				"body: '#{layer.body}'"
 				].join('\n\t')
 							
 			label = new Code
@@ -1563,9 +1607,12 @@ cardsView.onLoad ->
 				parent: @
 				x: layer.x
 				y: layer.maxY + 24
+				width: @width - (layer.x * 2)
 				text: string
 				
-			label.template = layer.toggled
+			label.template = 
+				side: layer.side
+				progress: layer.progress
 			
 			copyIcon = new Icon
 				parent: @
@@ -1579,9 +1626,11 @@ cardsView.onLoad ->
 				copyIcon.onTap ->
 					copyTextLayerToClipboard(label)
 					
-				layer.on "change:active", =>
-					label.template = layer.toggled
-			
+				layer.on "change:side", (side) ->
+					label.template = {side: side}
+				layer.on "change:progress", (progress) ->
+					label.template = {progress: progress}
+					
 			last = label
 	
 		
@@ -1866,3 +1915,4 @@ addDocsLink(homeView, '', 'github-circle')
 
 
 app.showNext homeView
+app.showNext cardsView
