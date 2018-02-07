@@ -1370,6 +1370,231 @@ tooltipsView.onUnload ->
 	for child in @content.children
 		child.destroy()
 
+# ----------------
+# ClearScore Components
+
+# Donuts View
+
+donutsView = new View
+	title: 'Donuts'
+	contentInset:
+		bottom: 128
+
+donutsView.onLoad ->
+	Utils.bind @content, ->
+		return if not SHOW_ALL
+	
+		# toggles
+		
+		new Toggle 
+			name: 'Toggle'
+			parent: @ 
+			
+		new Toggle 
+			name: 'Toggled Toggle'
+			parent: @ 
+			toggled: true
+		
+		new Toggle 
+			name: 'Toggle with Options'
+			parent: @ 
+			options: ['Good', 'Evil']
+		
+		new Toggle 
+			name: 'Toggle with Icons'
+			parent: @ 
+			options: ['pizza', 'apple']
+			icon: true
+		
+		new Toggle 
+			name: 'Toggle with Custom Colors'
+			parent: @ 
+			options: ['phone', 'email']
+			icon: true
+			color: white
+			backgroundColor: blue60
+		
+		new Toggle 
+			name: 'Blank Toggle'
+			parent: @ 
+			options: [' ', ' ']
+			
+		# set positions and create code labels
+		
+		for layer in @children
+			continue if layer.constructor.name isnt 'Toggle'
+			
+			title = new H4
+				name: '.'
+				parent: @
+				y: (last?.maxY ? 0) + 32
+				text: layer.name
+				
+			div = new Layer
+				name: '.'
+				parent: @
+				x: title.maxX + 16
+				y: title.y + 10
+				width: @width - (title.maxX + 16) - 16
+				backgroundColor: grey40
+				height: 1
+			
+			layer.y = title.maxY + 24
+		
+			string = [
+				"new Topggle",
+				"options: [#{_.join(_.map(layer.options, (n) -> return "'#{n}'"), ', ')}]"
+				"icon: #{layer.icon}"
+				"toggled: {toggled}"
+				].join('\n\t')
+							
+			label = new Code
+				name: '.'
+				parent: @
+				x: layer.x
+				y: layer.maxY + 24
+				text: string
+				
+			label.template = layer.toggled
+			
+			copyIcon = new Icon
+				parent: @
+				y: label.midY - 12
+				x: Align.right(-16)
+				icon: 'content-copy'
+				color: grey
+				
+			do (layer, label, copyIcon) ->
+				
+				copyIcon.onTap ->
+					copyTextLayerToClipboard(label)
+					
+				layer.on "change:active", =>
+					label.template = layer.toggled
+			
+			last = label
+	
+		
+		if not SHOW_LAYER_TREE then child.name = '.' for child in @children
+	
+addDocsLink(donutsView, 'wiki/Toggle')
+
+donutsView.onUnload ->
+	for child in @content.children
+		child.destroy()
+
+# Cards View
+
+cardsView = new View
+	title: 'Cards'
+	contentInset:
+		bottom: 128
+
+cardsView.onLoad ->
+	Utils.bind @content, ->
+		return if not SHOW_ALL
+	
+		# toggles
+		
+		new Toggle 
+			name: 'Toggle'
+			parent: @ 
+			
+		new Toggle 
+			name: 'Toggled Toggle'
+			parent: @ 
+			toggled: true
+		
+		new Toggle 
+			name: 'Toggle with Options'
+			parent: @ 
+			options: ['Good', 'Evil']
+		
+		new Toggle 
+			name: 'Toggle with Icons'
+			parent: @ 
+			options: ['pizza', 'apple']
+			icon: true
+		
+		new Toggle 
+			name: 'Toggle with Custom Colors'
+			parent: @ 
+			options: ['phone', 'email']
+			icon: true
+			color: white
+			backgroundColor: blue60
+		
+		new Toggle 
+			name: 'Blank Toggle'
+			parent: @ 
+			options: [' ', ' ']
+			
+		# set positions and create code labels
+		
+		for layer in @children
+			continue if layer.constructor.name isnt 'Toggle'
+			
+			title = new H4
+				name: '.'
+				parent: @
+				y: (last?.maxY ? 0) + 32
+				text: layer.name
+				
+			div = new Layer
+				name: '.'
+				parent: @
+				x: title.maxX + 16
+				y: title.y + 10
+				width: @width - (title.maxX + 16) - 16
+				backgroundColor: grey40
+				height: 1
+			
+			layer.y = title.maxY + 24
+		
+			string = [
+				"new Topggle",
+				"options: [#{_.join(_.map(layer.options, (n) -> return "'#{n}'"), ', ')}]"
+				"icon: #{layer.icon}"
+				"toggled: {toggled}"
+				].join('\n\t')
+							
+			label = new Code
+				name: '.'
+				parent: @
+				x: layer.x
+				y: layer.maxY + 24
+				text: string
+				
+			label.template = layer.toggled
+			
+			copyIcon = new Icon
+				parent: @
+				y: label.midY - 12
+				x: Align.right(-16)
+				icon: 'content-copy'
+				color: grey
+				
+			do (layer, label, copyIcon) ->
+				
+				copyIcon.onTap ->
+					copyTextLayerToClipboard(label)
+					
+				layer.on "change:active", =>
+					label.template = layer.toggled
+			
+			last = label
+	
+		
+		if not SHOW_LAYER_TREE then child.name = '.' for child in @children
+	
+addDocsLink(cardsView, 'wiki/Toggle')
+
+cardsView.onUnload ->
+	for child in @content.children
+		child.destroy()
+
+# ----------------
+
 # Example View
 
 exampleView = new View
@@ -1600,6 +1825,22 @@ Utils.bind homeView.content, ->
 		parent: @
 		text: 'Carousel'
 	
+	# misc
+	new H3
+		parent: @
+		text: 'ClearScore'
+		padding: {top: 16, bottom: 16}
+		
+	new RowLink
+		parent: @
+		text: 'Donut'
+		link: donutsView
+		
+	new RowLink
+		parent: @
+		text: 'Cards'
+		link: cardsView
+		
 	# misc
 	new H3
 		parent: @
