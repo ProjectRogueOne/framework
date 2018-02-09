@@ -1,4 +1,3 @@
-# lots of material icons:
 
 { colors } = require 'components/Colors'
 
@@ -13,13 +12,29 @@ Utils.insertCSS("""
  	  -webkit-text-fill-color: rgba(0,0,0,.5);
  	}
  	
- 	*/
  	@font-face {
- 		font-family: 'Aktiv Grotesk';
- 		font-weight: 200;
- 		src: url('modules/cs-components/fonts/AktivGrotesk_W_Hair.woff'); 
- 	/*
- 	}
+		font-family: 'Aktiv Grotesk';
+		font-weight: 200;
+		src: url('modules/cs-components/fonts/AktivGrotesk_W_Hair.woff'); 
+	}
+
+	@font-face {
+		font-family: 'Aktiv Grotesk';
+		font-weight: 300;
+		src: url('modules/cs-components/fonts/AktivGrotesk_W_Lt.woff'); 
+	}
+
+	@font-face {
+		font-family: 'Aktiv Grotesk';
+		font-weight: 400;
+		src: url('modules/cs-components/fonts/AktivGrotesk_W_Rg.woff'); 
+	}
+
+	@font-face {
+		font-family: 'Aktiv Grotesk';
+		font-weight: 500;
+		src: url('modules/cs-components/fonts/AktivGrotesk_W_Md.woff'); 
+	}
 """)
 
 # --------------------------
@@ -39,10 +54,10 @@ exports.theme =
 	typography:
 		Serif:
 			color: '#000'
-			fontFamily: 'Georgia'
+			fontFamily: 'Aktiv Grotesk'
 		Sans:
 			color: '#000'
-			fontFamily: 'Helvetica'
+			fontFamily: 'Aktiv Grotesk'
 		Mono:
 			color: '#333'
 			fontFamily: 'Menlo'

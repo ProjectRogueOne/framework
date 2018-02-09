@@ -1,6 +1,5 @@
 framework = require 'framework'
 
-
 # New Components
 
 { Donut } = require 'cs-components/Donut'
