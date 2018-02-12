@@ -81,7 +81,7 @@ class exports.Header extends Layer
 			y: Align.center(10)
 			width: Screen.width
 			textAlign: 'center'
-			text: options.title
+			text: 'test'
 		
 		@backIcon = new Icon
 			name: unless options.showLayers then '.' else 'Back Icon'
@@ -134,7 +134,6 @@ class exports.Header extends Layer
 
 	updateTitle: (title) =>
 		@titleLayer.animateStop()
-		print title
 		
 		do (title) =>
 			@titleLayer.once Events.AnimationEnd, =>
