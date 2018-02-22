@@ -5,12 +5,16 @@ framework = require 'framework'
 { Donut } = require 'cs-components/Donut'
 { Card } = require 'cs-components/Card'
 
-for componentName in [
+[
 	'Donut'
 	'Card'
-]
+	].forEach (componentName) ->
+
 	c = eval(componentName)
-	do (componentName, c) =>
-		window[componentName] = (options = {}) =>
+	window[componentName] = class FrameworkComponent extends c 
+		constructor: (options = {}) ->
+			@constructorName = componentName
+
 			_.assign(options, {app: framework.app})
-			return new c(options)
+
+			super options

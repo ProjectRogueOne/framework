@@ -10,7 +10,7 @@ class exports.Donut extends Layer
 			value: 420
 			height: 240
 			width: 240
-			color: green
+			color: blue
 			backgroundColor: 'rgba(255,255,255,.1)'
 			borderRadius: 999
 			borderWidth: 1
@@ -48,6 +48,7 @@ class exports.Donut extends Layer
 			width: @width
 			textAlign: 'center'
 			fontWeight: 200
+			color: options.color
 		
 		# out of...
 		
@@ -60,7 +61,7 @@ class exports.Donut extends Layer
 		
 		# meaning
 		
-		@outOfLayer = new Body2
+		@meaningLayer = new Body2
 			parent: @
 			x: Align.center
 			y: @height * .72
@@ -79,15 +80,15 @@ class exports.Donut extends Layer
 				" r='#{(@width/2) - 3}'/></g>"
 			fill: 'rgba(0,0,0,0)'
 			strokeWidth: 3
-			stroke: black
+			stroke: options.color
 		
 		@svgCircleElement = document.getElementById("svg_circle_#{@_uniqId}")
 		
 		# definitions
 		
-		Utils.defineValid @, "min", options.min, _.isNumber, 'Donut.min must be a number.', @_setValue
-		Utils.defineValid @, "max", options.max, _.isNumber, 'Donut.max must be a number.', @_setValue
-		Utils.defineValid @, "value", options.value, _.isNumber, 'Donut.value must be a number.', @_setValue
+		Utils.define @, "min", options.min, @_setValue, _.isNumber, 'Donut.min must be a number.'
+		Utils.define @, "max", options.max, @_setValue, _.isNumber, 'Donut.max must be a number.'
+		Utils.define @, "value", options.value, @_setValue, _.isNumber, 'Donut.value must be a number.'
 		
 		# Events
 		
@@ -106,8 +107,9 @@ class exports.Donut extends Layer
 		@on "change:color", => 
 			@svgCircle.stroke = @color
 			@numberLayer.color = @color
+			@meaningLayer.color = @color
 		
-		@color = options.color
+		Utils.delay 0, => @color = options.color
 		
 		
 	_setValue: (value) ->

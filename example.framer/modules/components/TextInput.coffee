@@ -5,6 +5,9 @@ MODEL = 'textInput'
 class exports.TextInput extends Layer
 	constructor: (options = {}) ->
 
+		# TODO
+		# * Scroll to Input when on a mobile device (with screen keyboard)
+
 		# ---------------
 		# Options
 
@@ -74,7 +77,7 @@ class exports.TextInput extends Layer
 			padding: "0 #{Utils.px(theme[MODEL].default.padding ? 12)}"
 			backgroundColor: theme[MODEL].default.backgroundColor ? white
 			fontFamily: theme[MODEL].default.fontFamily ? "Helvetica"
-			fontSize: options.fontSize ? Utils.px(theme[MODEL].default.fontSize) ? 13
+			fontSize: Utils.px(options.fontSize ? theme[MODEL].default.fontSize ? 13)
 			textAlign: options.textAlign ? theme[MODEL].default.textAlign ? "left"
 			textTransform: options.textTransform ? theme[MODEL].default.textTransform ? "none"
 
@@ -90,10 +93,10 @@ class exports.TextInput extends Layer
 		
 		@__instancing = true
 
-		Utils.defineValid @, 'theme', 'default', _.isString, 'TextInput.theme must be a string.', @_setTheme
-		Utils.defineValid @, 'hovered', false, _.isBoolean, 'TextInput.hovered must be a boolean.', @_showHovered
-		Utils.defineValid @, 'focused', false, _.isBoolean, 'TextInput.focused must be a boolean.',  @_showFocused
-		Utils.defineValid @, 'disabled', options.disabled, _.isBoolean, 'TextInput.disabled must be a boolean.',  @_showDisabled
+		Utils.define @, 'theme', 'default', @_setTheme, _.isString, 'TextInput.theme must be a string.'
+		Utils.define @, 'hovered', false, @_showHovered, _.isBoolean, 'TextInput.hovered must be a boolean.'
+		Utils.define @, 'focused', false, @_showFocused, _.isBoolean, 'TextInput.focused must be a boolean.'
+		Utils.define @, 'disabled', options.disabled, @_showDisabled, _.isBoolean, 'TextInput.disabled must be a boolean.'
 		
 		delete @__constructor
 		delete @__instancing
@@ -104,8 +107,12 @@ class exports.TextInput extends Layer
 		@onMouseOver => @hovered = true
 		@onMouseOut => @hovered = false
 		@_input.oninput = @_setValue
-		@_input.onblur = => @focused = false
-		@_input.onfocus = => @focused = true
+		@_input.onblur = => 
+			@app.focused = null
+			@focused = false
+		@_input.onfocus = => 
+			@app.focused = @_input
+			@focused = true
 
 		@value = options.value
 
@@ -154,7 +161,12 @@ class exports.TextInput extends Layer
 		@theme = "default"
 		@ignoreEvents = false
 		@_input.disabled = false
-
+	
+	# ---------------
+	# Public Functions
+	
+	forceBlur: => 
+		@_input?.blur()
 
 	# ---------------
 	# Special Definitions
@@ -165,4 +177,5 @@ class exports.TextInput extends Layer
 			return if @__constructor
 			
 			@_input.value = value
+			@textLayer.visible = @value is ""
 			@emit "change:value", value, @
