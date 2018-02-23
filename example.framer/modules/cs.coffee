@@ -379,7 +379,61 @@ themeStyles =
 				backgroundColor: null
 				opacity: 1
 				shadowColor: 'rgba(0,0,0,0)'
-
+	# --------------------------
+	# Segment
+	segment:
+		default:
+			default:
+				height: 50
+				fontWeight: 500
+				color: link
+				borderColor: link
+				backgroundColor: white
+				shadowColor: 'rgba(0,0,0,0)'
+				borderWidth: 1
+				shadowY: 2
+				shadowBlur: 6
+			disabled:
+				color: grey
+				borderColor: grey
+				backgroundColor: white.alpha(0)
+				shadowColor: 'rgba(0,0,0,0)'
+			touched:
+				color: link
+				borderColor: link60
+				backgroundColor: white60
+				shadowColor: 'rgba(0,0,0,0)'
+			hovered:
+				color: link
+				borderColor: link
+				backgroundColor: white
+				shadowColor: 'rgba(0,0,0,0)'
+		active:
+			default:
+				height: 50
+				fontWeight: 500
+				color: white
+				borderColor: link
+				backgroundColor: link
+				shadowColor: 'rgba(0,0,0,.16)'
+				borderWidth: 1
+				shadowY: 2
+				shadowBlur: 6
+			disabled:
+				color: white
+				borderColor: grey
+				backgroundColor: grey
+				shadowColor: 'rgba(0,0,0,0)'
+			touched:
+				color: white
+				borderColor: link60
+				backgroundColor: link60
+				shadowColor: 'rgba(0,0,0,0)'
+			hovered:
+				color: white
+				borderColor: link
+				backgroundColor: link
+				shadowColor: 'rgba(0,0,0,.16)'
 
 
 # -----------------

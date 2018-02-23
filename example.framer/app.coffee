@@ -479,7 +479,7 @@ textInputsView.onLoad ->
 			do (layer, label, copyIcon) ->
 				
 				copyIcon.onTap ->
-					Utils.copyTextToClipboard(label)
+					Utils.copyTextToClipboard(label.text)
 				
 				layer.on "change:value", (value) -> 
 					label.template =
@@ -564,7 +564,7 @@ selectsView.onLoad ->
 			do (layer, label, copyIcon) ->
 				
 				copyIcon.onTap ->
-					Utils.copyTextToClipboard(label)
+					Utils.copyTextToClipboard(label.text)
 					
 				layer.on "change:disabled", (bool) -> 
 					label.template =
@@ -673,7 +673,7 @@ steppersView.onLoad ->
 			do (layer, label, copyIcon) ->
 				
 				copyIcon.onTap ->
-					Utils.copyTextToClipboard(label)
+					Utils.copyTextToClipboard(label.text)
 					
 				layer.on "change:value", =>
 					label.template = layer.value
@@ -784,7 +784,7 @@ segmentsView.onLoad ->
 			do (layer, label, copyIcon) ->
 				
 				copyIcon.onTap ->
-					Utils.copyTextToClipboard(label)
+					Utils.copyTextToClipboard(label.text)
 					
 				layer.on "change:active", =>
 					label.template = layer.active
@@ -863,7 +863,7 @@ togglesView.onLoad ->
 			layer.y = title.maxY + 24
 		
 			string = [
-				"new Topggle",
+				"new Toggle",
 				"options: [#{_.join(_.map(layer.options, (n) -> return "'#{n}'"), ', ')}]"
 				"icon: #{layer.icon}"
 				"toggled: {toggled}"
@@ -888,7 +888,7 @@ togglesView.onLoad ->
 			do (layer, label, copyIcon) ->
 				
 				copyIcon.onTap ->
-					Utils.copyTextToClipboard(label)
+					Utils.copyTextToClipboard(label.text)
 					
 				layer.on "change:active", =>
 					label.template = layer.toggled
@@ -1277,7 +1277,7 @@ tooltipsView.onLoad ->
 			do (layer, label, copyIcon) ->
 				
 				copyIcon.onTap ->
-					Utils.copyTextToClipboard(label)
+					Utils.copyTextToClipboard(label.text)
 					
 			
 			last = label
@@ -1481,7 +1481,7 @@ donutsView.onLoad ->
 			do (layer, label, copyIcon) ->
 				
 				copyIcon.onTap ->
-					Utils.copyTextToClipboard(label)
+					Utils.copyTextToClipboard(label.text)
 					
 				layer.on "change:value", =>
 					label.template = layer.value.toFixed()
@@ -1633,7 +1633,7 @@ cardsView.onLoad ->
 			do (layer, label, copyIcon) ->
 				
 				copyIcon.onTap ->
-					Utils.copyTextToClipboard(label)
+					Utils.copyTextToClipboard(label.text)
 					
 				layer.on "change:side", (side) ->
 					label.template = {side: side}
@@ -1913,4 +1913,4 @@ Utils.bind homeView, ->
 	
 		addDocsLink(@, '', 'github-circle')
 
-app.showNext(selectsView)
+app.showNext homeView
