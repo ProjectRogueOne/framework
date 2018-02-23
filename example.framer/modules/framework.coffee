@@ -1,13 +1,12 @@
 require 'moreutils'
-
-require 'components/Colors'
-require 'components/Theme'
-require 'components/Typography'
+theme = require 'components/Theme'
+colors = require 'components/Colors'
+typography = require 'components/Typography'
 
 # disable hints
 Framer.Extras.Hints.disable()
 
-# dumb thing that blocks events in the upper left-hand corner
+# get rid of dumb thing that blocks events in the upper left-hand corner
 dumbthing = document.getElementById("FramerContextRoot-TouchEmulator")?.childNodes[0]
 dumbthing?.style.width = "0px"
 
@@ -32,54 +31,55 @@ dumbthing?.style.width = "0px"
 { SortableComponent } = require 'components/SortableComponent'
 { TransitionPage } = require 'components/PageTransitionComponent'
 
-# let other modules set default title before app is instanced 
-exports.defaultTitle = defaultTitle = "www.framework.com"
-# let other modules have access to app after app is instanced
-exports.app = undefined
+# Exports for theme support 
+_.assign exports,
+	defaultTitle: "www.framework.com"
+	app: undefined
+	components: [
+		'Button', 
+		'Header', 
+		'Radiobox',
+		'Checkbox',
+		'Toggle',
+		'Tooltip',
+		'Select',
+		'Icon', 
+		'Stepper', 
+		'Segment',
+		'TextInput',
+		'Link', 
+		'Separator', 
+		'TransitionPage', 
+		'View', 
+		'CarouselComponent', 
+		'SortableComponent'
+		'PageTransitionComponent'
+		]
+	theme: theme
+	typography: typography
+	colors: colors
 
+# Add components to window
+exports.components.forEach (componentName) ->
+	window[componentName] = class FrameworkComponent extends eval(componentName)
+		constructor: (options = {}) ->
+			@app = exports.app
+			super options
+
+
+# ... and finally, the App class
 class window.App extends FlowComponent
 	constructor: (options = {}) ->
 
+		exports.app = @
+
 		_.defaults options,
 			backgroundColor: white
-			title: defaultTitle
+			title: exports.defaultTitle
 			chrome: 'ios'
 			contentWidth: Screen.width
 
-		# Add components to window
-		[
-			'Button', 
-			'Header', 
-			'Radiobox',
-			'Checkbox',
-			'Toggle',
-			'Tooltip',
-			'Select',
-			'Icon', 
-			'Stepper', 
-			'Segment',
-			'TextInput',
-			'Link', 
-			'Separator', 
-			'TransitionPage', 
-			'View', 
-			'CarouselComponent', 
-			'SortableComponent'
-			'PageTransitionComponent'
-		].forEach (componentName) =>
-
-			c = eval(componentName)
-			window[componentName] = class FrameworkComponent extends c 
-				constructor: (options = {}) ->
-					@constructorName = componentName
-
-					_.assign(options, {app: exports.app})
-
-					super options
-
 		super options
-
-		exports.app = @
 
 		_.assign @,
 			chrome: options.chrome
