@@ -1787,8 +1787,9 @@ Utils.bind homeView, ->
 		
 		
 		# structure
-		new H3
+		s = new H3
 			parent: @content
+			name: "testing"
 			text: 'Structure'
 			padding: {top: 16, bottom: 16}
 		
@@ -1911,6 +1912,5 @@ Utils.bind homeView, ->
 		@updateContent()
 	
 		addDocsLink(@, '', 'github-circle')
-
 
 app.showNext homeView
