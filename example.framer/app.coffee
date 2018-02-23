@@ -30,7 +30,7 @@ class RowLink extends Layer
 			
 		# layers
 		
-		@linkLayer = new H4Link
+		@linkLayer = new BodyLink
 			parent: @
 			x: 12
 			text: options.text
@@ -330,7 +330,7 @@ linksView.onLoad ->
 	
 	addDocsLink(@, 'wiki/Link')
 
-# Buttons View
+   # Buttons View
 
 buttonsView = new View
 	title: 'Buttons'
@@ -1913,4 +1913,4 @@ Utils.bind homeView, ->
 	
 		addDocsLink(@, '', 'github-circle')
 
-app.showNext homeView
+app.showNext(selectsView)
